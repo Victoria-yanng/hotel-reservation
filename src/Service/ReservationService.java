@@ -11,7 +11,6 @@ import model.Reservation;
 
 public class ReservationService {
     public Collection<IRoom> roomList = new HashSet<>();
-    public Collection<IRoom> availableRooms = new HashSet<>();
     public Collection<Reservation> reservations = new HashSet<>();
     private final static AdminMenu adminMenu = AdminMenu.getInstance5();
 
@@ -56,6 +55,7 @@ public class ReservationService {
     //Reference findRooms: https://knowledge.udacity.com/questions/655317
 
     public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate) {
+        Collection<IRoom> availableRooms = new HashSet<>();
         if (reservations.isEmpty()) {
             availableRooms = roomList;
             return availableRooms;

@@ -20,7 +20,7 @@ public class CustomerService {
         for (Customer customer : customers) {
             if (customer.getEmail().equals(customerEmail)) {
                 return customer;
-            } else {
+            } else if (!customer.getEmail().equals(customerEmail)) {
                 return null;
             }
         } return null;

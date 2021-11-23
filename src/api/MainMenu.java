@@ -59,77 +59,91 @@ public class MainMenu {
                                 Date recommendCheckInDate = checkInDate.getTime();
                                 Date recommendCheckOutdate = checkOutDate.getTime();
 
-                                System.out.println("Recomand CheckIn Date: " + recommendCheckInDate);
-                                System.out.println("Recomand CheckOut Date: " + recommendCheckOutdate);
+                                System.out.println("< No avaliable Rooms in this specific time >");
+                                System.out.println("Recomend Rooms with Check-in and Chck-Out Date after 7 days");
+                                System.out.println("-----------------------------------------------------------");
+                                System.out.println("< recommend Check-in and Check-out Date >");
+                                System.out.println("Check-in Date: " + recommendCheckInDate);
+                                System.out.println("Check-out Date: " + recommendCheckOutdate);
 
+                                System.out.println();
+                                System.out.println("< Avaliable Rooms >");
                                 Collection<IRoom> recommendRooms = hotelResource.findARoom(recommendCheckInDate, recommendCheckOutdate);
                                 for (IRoom rm : recommendRooms) {
                                     System.out.println(rm);
                                 }
 
                                 System.out.println("-----------------------------------------------------------");
+
+                                makeAReservation(recommendCheckInDate, recommendCheckOutdate);
+                                break;
                             }
 
                         } else {
-                                System.out.println("< Invalid input Date >");
-                                System.out.println("-----------------------------------------------------------");
-                                break;
-                            }
-                            System.out.println("Would you like to book a Room? Y/N");
-                            String userOption = input.next();
-                            while (!userOption.isEmpty()) {
-                                if (userOption.equalsIgnoreCase("Y")) {
-                                    System.out.println("Do you have an Account with us? Y/N");
-                                    userOption = input.next();
-                                    while (!userOption.isEmpty()) {
-                                        if (userOption.equalsIgnoreCase("Y")) {
-                                            System.out.println("Enter Email format: name@doamin.com");
-                                            String userEmail = input.next();
-                                            if (hotelResource.getCustomer(userEmail) == null) {
-                                                System.out.println("< No Customer found, please try again >");
-                                                System.out.println("-----------------------------------------------------------");
-                                                break;
-                                            }
-                                            System.out.println("What Room Number would you like to reserve?");
-                                            String inputRoomNumber = input.next();
-                                            IRoom room = hotelResource.getARoom(inputRoomNumber);
-                                            hotelResource.bookARoom(userEmail, room, inputCheckInDate, inputCheckOutDate);
-                                            System.out.println("Reservation has been successfully made!");
-                                            System.out.println("-----------------------------------------------------------");
-                                            hotelResource.getCustomersReservations(userEmail);
-                                            break;
-                                        } else if (userOption.equalsIgnoreCase("N")) {
-                                            System.out.println("First Name: ");
-                                            String userFirstName = input.next();
-                                            System.out.println("Last Name: ");
-                                            String userLastName = input.next();
-                                            System.out.println("Email Address: ");
-                                            String userEmail = input.next();
-                                            hotelResource.checkCustomer(userEmail);
-                                            hotelResource.createACustomer(userFirstName, userLastName, userEmail);
-                                            //
-                                            System.out.println("What Room Number would you like to reserve?");
-                                            String inputRoomNumber = input.next();
-                                            IRoom room = hotelResource.getARoom(inputRoomNumber);
-                                            hotelResource.bookARoom(userEmail, room, inputCheckInDate, inputCheckOutDate);
-                                            System.out.println("Reservation has been successfully made!");
-                                            System.out.println("-----------------------------------------------------------");
-                                            hotelResource.getCustomersReservations(userEmail);
-                                            break;
-                                        } else if (userOption != "N" || userOption != "n" && userOption != "Y" || userOption != "y") {
-                                            System.out.println("< Enter 'Y' or 'N' >");
-                                            userOption = input.next();
-                                        }
-                                    }
-                                    break;
-                                } else if (userOption.equalsIgnoreCase("N")) {
-                                    break;
-                                } else if (userOption != "N" || userOption != "n" && userOption != "Y" || userOption != "y") {
-                                    System.out.println("< Enter 'Y' or 'N' >");
-                                    userOption = input.next();
-                                }
-                            }
+                            System.out.println("< Invalid input Date >");
+                            System.out.println("-----------------------------------------------------------");
                             break;
+                        }
+                        System.out.println("Would you like to book a Room? Y/N");
+                        String userOption = input.next();
+                        while (!userOption.isEmpty()) {
+                            if (userOption.equalsIgnoreCase("Y")) {
+                                System.out.println("Do you have an Account with us? Y/N");
+                                userOption = input.next();
+                                while (!userOption.isEmpty()) {
+                                    if (userOption.equalsIgnoreCase("Y")) {
+                                        System.out.println("Enter Email format: name@doamin.com");
+                                        String userEmail = input.next();
+                                        if (hotelResource.getCustomer(userEmail) == null) {
+                                            System.out.println("< No Customer found, please try again >");
+                                            System.out.println("-----------------------------------------------------------");
+                                            break;
+                                        }
+                                        System.out.println("What Room Number would you like to reserve?");
+                                        String inputRoomNumber = input.next();
+                                        IRoom room = hotelResource.getARoom(inputRoomNumber);
+                                        if (room == null) {
+                                            System.out.println("Wrong Room Number, try again");
+                                            System.out.println("-----------------------------------------------------------");
+                                            break;
+                                        }
+                                        hotelResource.bookARoom(userEmail, room, inputCheckInDate, inputCheckOutDate);
+                                        System.out.println("Reservation has been successfully made!");
+                                        System.out.println("-----------------------------------------------------------");
+                                        hotelResource.getCustomersReservations(userEmail);
+                                        break;
+                                    } else if (userOption.equalsIgnoreCase("N")) {
+                                        System.out.println("First Name: ");
+                                        String userFirstName = input.next();
+                                        System.out.println("Last Name: ");
+                                        String userLastName = input.next();
+                                        System.out.println("Email Address: ");
+                                        String userEmail = input.next();
+                                        hotelResource.checkCustomer(userEmail);
+                                        hotelResource.createACustomer(userFirstName, userLastName, userEmail);
+                                        //
+                                        System.out.println("What Room Number would you like to reserve?");
+                                        String inputRoomNumber = input.next();
+                                        IRoom room = hotelResource.getARoom(inputRoomNumber);
+                                        hotelResource.bookARoom(userEmail, room, inputCheckInDate, inputCheckOutDate);
+                                        System.out.println("Reservation has been successfully made!");
+                                        System.out.println("-----------------------------------------------------------");
+                                        hotelResource.getCustomersReservations(userEmail);
+                                        break;
+                                    } else if (userOption != "N" || userOption != "n" && userOption != "Y" || userOption != "y") {
+                                        System.out.println("< Enter 'Y' or 'N' >");
+                                        userOption = input.next();
+                                    }
+                                }
+                                break;
+                            } else if (userOption.equalsIgnoreCase("N")) {
+                                break;
+                            } else if (userOption != "N" || userOption != "n" && userOption != "Y" || userOption != "y") {
+                                System.out.println("< Enter 'Y' or 'N' >");
+                                userOption = input.next();
+                            }
+                        }
+                        break;
                     case 2:
                         System.out.println("< See my reservations >");
                         System.out.println("-----------------------------------------------------------");
@@ -166,11 +180,11 @@ public class MainMenu {
                 }
             }
         } catch(Exception e){
-                    System.out.println("< Invalid Input, please try again >");
-                    System.out.println("-----------------------------------------------------------");
-                    start();
-                }
-            }
+            System.out.println("< Invalid Input, please try again >");
+            System.out.println("-----------------------------------------------------------");
+            start();
+        }
+    }
 
     public static void main(String[] args) {
         MainMenu mainMenuObj = new MainMenu();
@@ -182,6 +196,69 @@ public class MainMenu {
             mainMenu = new MainMenu();
         }
         return mainMenu;
+    }
+
+    public void makeAReservation(Date checkIn, Date checkOut) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Would you like to book a Room? Y/N");
+        String userOption = input.next();
+        while (!userOption.isEmpty()) {
+            if (userOption.equalsIgnoreCase("Y")) {
+                System.out.println("Do you have an Account with us? Y/N");
+                userOption = input.next();
+                while (!userOption.isEmpty()) {
+                    if (userOption.equalsIgnoreCase("Y")) {
+                        System.out.println("Enter Email format: name@doamin.com");
+                        String userEmail = input.next();
+                        if (hotelResource.getCustomer(userEmail) == null) {
+                            System.out.println("< No Customer found, please try again >");
+                            System.out.println("-----------------------------------------------------------");
+                            break;
+                        }
+                        System.out.println("What Room Number would you like to reserve?");
+                        String inputRoomNumber = input.next();
+                        IRoom room = hotelResource.getARoom(inputRoomNumber);
+                        if (room == null) {
+                            System.out.println("Wrong Room Number, try again");
+                            System.out.println("-----------------------------------------------------------");
+                            break;
+                        }
+                        hotelResource.bookARoom(userEmail, room, checkIn, checkOut);
+                        System.out.println("Reservation has been successfully made!");
+                        System.out.println("-----------------------------------------------------------");
+                        hotelResource.getCustomersReservations(userEmail);
+                        break;
+                    } else if (userOption.equalsIgnoreCase("N")) {
+                        System.out.println("First Name: ");
+                        String userFirstName = input.next();
+                        System.out.println("Last Name: ");
+                        String userLastName = input.next();
+                        System.out.println("Email Address: ");
+                        String userEmail = input.next();
+                        hotelResource.checkCustomer(userEmail);
+                        hotelResource.createACustomer(userFirstName, userLastName, userEmail);
+                        //
+                        System.out.println("What Room Number would you like to reserve?");
+                        String inputRoomNumber = input.next();
+                        IRoom room = hotelResource.getARoom(inputRoomNumber);
+                        hotelResource.bookARoom(userEmail, room, checkIn, checkOut);
+                        System.out.println("Reservation has been successfully made!");
+                        System.out.println("-----------------------------------------------------------");
+                        hotelResource.getCustomersReservations(userEmail);
+                        break;
+                    } else if (userOption != "N" || userOption != "n" && userOption != "Y" || userOption != "y") {
+                        System.out.println("< Enter 'Y' or 'N' >");
+                        userOption = input.next();
+                    }
+                }
+                break;
+            } else if (userOption.equalsIgnoreCase("N")) {
+                break;
+            } else if (userOption != "N" || userOption != "n" && userOption != "Y" || userOption != "y") {
+                System.out.println("< Enter 'Y' or 'N' >");
+                userOption = input.next();
+            }
+        }
     }
 
 }
