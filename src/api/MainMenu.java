@@ -59,18 +59,22 @@ public class MainMenu {
                                 Date recommendCheckInDate = checkInDate.getTime();
                                 Date recommendCheckOutdate = checkOutDate.getTime();
 
-                                System.out.println("< No avaliable Rooms in this specific time >");
-                                System.out.println("Recomend Rooms with Check-in and Chck-Out Date after 7 days");
+                                System.out.println("< No avaliable Rooms in this time >");
                                 System.out.println("-----------------------------------------------------------");
                                 System.out.println("< recommend Check-in and Check-out Date >");
                                 System.out.println("Check-in Date: " + recommendCheckInDate);
                                 System.out.println("Check-out Date: " + recommendCheckOutdate);
-
-                                System.out.println();
+                                System.out.println("-----------------------------------------------------------");
                                 System.out.println("< Avaliable Rooms >");
                                 Collection<IRoom> recommendRooms = hotelResource.findARoom(recommendCheckInDate, recommendCheckOutdate);
-                                for (IRoom rm : recommendRooms) {
+                                for(IRoom rm : recommendRooms) {
                                     System.out.println(rm);
+                                }
+
+                                if(recommendRooms.isEmpty()) {
+                                    System.out.println("No Rooms are avaliable now");
+                                    System.out.println("-----------------------------------------------------------");
+                                    break;
                                 }
 
                                 System.out.println("-----------------------------------------------------------");
@@ -125,6 +129,11 @@ public class MainMenu {
                                         System.out.println("What Room Number would you like to reserve?");
                                         String inputRoomNumber = input.next();
                                         IRoom room = hotelResource.getARoom(inputRoomNumber);
+                                        if(room == null) {
+                                            System.out.println("Wrong Room Number, try again");
+                                            System.out.println("-----------------------------------------------------------");
+                                            break;
+                                        }
                                         hotelResource.bookARoom(userEmail, room, inputCheckInDate, inputCheckOutDate);
                                         System.out.println("Reservation has been successfully made!");
                                         System.out.println("-----------------------------------------------------------");
@@ -234,17 +243,17 @@ public class MainMenu {
                         System.out.println("Last Name: ");
                         String userLastName = input.next();
                         System.out.println("Email Address: ");
-                        String userEmail = input.next();
-                        hotelResource.checkCustomer(userEmail);
-                        hotelResource.createACustomer(userFirstName, userLastName, userEmail);
+                        String inputEmail = input.next();
+                        hotelResource.checkCustomer(inputEmail);
+                        hotelResource.createACustomer(userFirstName, userLastName, inputEmail);
                         //
                         System.out.println("What Room Number would you like to reserve?");
                         String inputRoomNumber = input.next();
                         IRoom room = hotelResource.getARoom(inputRoomNumber);
-                        hotelResource.bookARoom(userEmail, room, checkIn, checkOut);
+                        hotelResource.bookARoom(inputEmail, room, checkIn, checkOut);
                         System.out.println("Reservation has been successfully made!");
                         System.out.println("-----------------------------------------------------------");
-                        hotelResource.getCustomersReservations(userEmail);
+                        hotelResource.getCustomersReservations(inputEmail);
                         break;
                     } else if (userOption != "N" || userOption != "n" && userOption != "Y" || userOption != "y") {
                         System.out.println("< Enter 'Y' or 'N' >");

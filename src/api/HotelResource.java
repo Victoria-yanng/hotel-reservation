@@ -23,9 +23,9 @@ public class HotelResource {
     }
 
     public void createACustomer(String firstName, String lastName, String email) {
-            customerService.addCustomer(firstName, lastName, email);
-            System.out.println("Your Account has been successfully created!");
-            System.out.println("-----------------------------------------------------------");
+        customerService.addCustomer(firstName, lastName, email);
+        System.out.println("Your Account has been successfully created!");
+        System.out.println("-----------------------------------------------------------");
     }
 
     public IRoom getARoom(String roomNumber) {

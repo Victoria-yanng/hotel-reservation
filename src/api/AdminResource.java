@@ -12,15 +12,8 @@ public class AdminResource {
     private CustomerService customerService = CustomerService.getInstance();
     private ReservationService reservationService = ReservationService.getInstance2();
 
-    public Customer getCustomer(String email) {
-        for(Customer customer : customerService.customers) {
-            if(email.equals(customer.getEmail())) {
-                return customer;
-            } else {
-                System.out.println("No Reservation found");
-                return null;
-            }
-        } return null;
+    public Customer getCustomer(String Email) {
+        return customerService.getCustomer(Email);
     }
 
     public void addRoom(List<IRoom> rooms) {

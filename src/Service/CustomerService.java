@@ -16,14 +16,11 @@ public class CustomerService {
         customers.add(customer);
     }
 
+    //Reference getCustomer: https://knowledge.udacity.com/questions/609553
+
     public Customer getCustomer(String customerEmail) {
-        for (Customer customer : customers) {
-            if (customer.getEmail().equals(customerEmail)) {
-                return customer;
-            } else if (!customer.getEmail().equals(customerEmail)) {
-                return null;
-            }
-        } return null;
+        Optional<Customer> customer = customers.stream().filter(c -> customerEmail.equals(c.getEmail())).findFirst();
+        return customer.orElse(null);
     }
 
     public Customer checkCustomer(String customerEmail) {

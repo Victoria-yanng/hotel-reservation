@@ -23,6 +23,35 @@ public class ReservationService {
         System.out.println("-----------------------------------------------------------");
     }
 
+    //Reference findRooms: https://knowledge.udacity.com/questions/745156
+
+    public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate) {
+        Collection<IRoom> availableRooms = new ArrayList<>();
+        for (IRoom room: roomList){
+            if (!isRoomReserved(room, checkInDate, checkOutDate)){
+                availableRooms.add(room);
+            }
+        }
+        return availableRooms;
+    }
+
+    private boolean isRoomReserved(IRoom room, Date checkInDate, Date checkOutDate) {
+        if (reservations.isEmpty()) return false;
+        for (Reservation reservation: reservations){
+            IRoom reservedRoom = reservation.getRoom();
+            if (reservedRoom.getRoomNumber().equals(room.getRoomNumber())){
+                if (reservationConflictsWithRange(reservation, checkInDate, checkOutDate)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean reservationConflictsWithRange(Reservation reservation, Date checkInDate, Date checkOutDate){
+        return !(checkOutDate.before(reservation.getCheckInDate()) || checkInDate.after(reservation.getCheckOutDate()));
+    }
+
     public IRoom getARoom(String roomNumber) {
         for (IRoom room : roomList) {
             if (roomNumber.equals(room.getRoomNumber())) {
@@ -50,29 +79,6 @@ public class ReservationService {
         Reservation reserved = new Reservation(customer, room, checkInDate, checkOutDate);
         reservations.add(reserved);
         return reserved;
-    }
-
-    //Reference findRooms: https://knowledge.udacity.com/questions/655317
-
-    public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate) {
-        Collection<IRoom> availableRooms = new HashSet<>();
-        if (reservations.isEmpty()) {
-            availableRooms = roomList;
-            return availableRooms;
-        } else {
-            for(IRoom room : roomList) {
-                for (Reservation reservation : reservations) {
-                    if ((room.getRoomNumber().equals(reservation.room.getRoomNumber())) && ((checkInDate.before(reservation.getCheckInDate()) && checkOutDate.before(reservation.getCheckInDate()))
-                            || (checkInDate.after(reservation.getCheckOutDate()) && checkOutDate.after(reservation.getCheckOutDate())))
-                            || (!reservation.room.getRoomNumber().contains(room.getRoomNumber()))) {
-                        availableRooms.add(room);
-                    } else if (room.getRoomNumber().equals(reservation.room.getRoomNumber())) {
-                        availableRooms.remove(room);
-                    }
-                }
-            }
-        }
-        return availableRooms;
     }
 
     public Collection<Reservation> getCustomerReservation(Customer customer) {
