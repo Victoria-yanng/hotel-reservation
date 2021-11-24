@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import api.AdminMenu;
+import api.MainMenu;
 import model.IRoom;
 import model.Customer;
 import model.Reservation;
@@ -13,6 +14,7 @@ public class ReservationService {
     public Collection<IRoom> roomList = new HashSet<>();
     public Collection<Reservation> reservations = new HashSet<>();
     private final static AdminMenu adminMenu = AdminMenu.getInstance5();
+    private final static MainMenu mainMenu = MainMenu.getInstance4();
 
     private static ReservationService reservationService = null;
 
@@ -73,6 +75,18 @@ public class ReservationService {
             }
         }
         return null;
+    }
+
+    public boolean checkRoomNumber(String roomNumber) {
+        for(IRoom room : mainMenu.getAvailableRoom) {
+            if(room.getRoomNumber().contains(roomNumber)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        return true;
     }
 
     public Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate) {
