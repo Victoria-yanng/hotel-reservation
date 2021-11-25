@@ -77,16 +77,9 @@ public class ReservationService {
         return null;
     }
 
-    public boolean checkRoomNumber(String roomNumber) {
-        for(IRoom room : mainMenu.getAvailableRoom) {
-            if(room.getRoomNumber().contains(roomNumber)) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-        return true;
+    public IRoom checkRoomNumber(String roomNumber) {
+        Optional<IRoom> availableRoom = mainMenu.availableRooms.stream().filter(c -> roomNumber.equals(c.getRoomNumber())).findFirst();
+        return availableRoom.orElse(null);
     }
 
     public Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate) {

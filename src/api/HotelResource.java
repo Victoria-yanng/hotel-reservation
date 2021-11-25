@@ -36,7 +36,7 @@ public class HotelResource {
         return reservationService.checkARoom(roomNumber);
     }
 
-    public boolean checkRoomNumber(String roomNumber) {
+    public IRoom checkRoomNumber(String roomNumber) {
         return reservationService.checkRoomNumber(roomNumber);
     }
 
