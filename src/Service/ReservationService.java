@@ -65,7 +65,7 @@ public class ReservationService {
 
     public IRoom checkARoom(String roomNumber) {
         for (IRoom room : roomList) {
-            if (!roomNumber.equals(room.getRoomNumber())) {
+            if (!roomNumber.contains(room.getRoomNumber())) {
                 return room;
             } else {
                 System.out.println("This Room has been added");
