@@ -25,7 +25,7 @@ public class CustomerService {
 
     public Customer checkCustomer(String customerEmail) {
         for (Customer customer : customers) {
-            if (customer.getEmail().contains(customerEmail)) {
+            if (customer.getEmail().equals(customerEmail)) {
                 System.out.println("Customer existed");
                 System.out.println("-----------------------------------------------------------");
                 return customer;
